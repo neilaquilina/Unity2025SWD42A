@@ -72,6 +72,17 @@ public class Player : MonoBehaviour
         transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
     }
 
+    /// <summary>
+    /// Makes the camera follow the player by updating its position to match the player's.
+    /// Maintains the camera's existing Z position for proper depth in 2D games.
+    /// </summary>
+    private void FollowPlayer()
+    {
+        // Set the camera's position to the player's position, keeping the camera's Z value
+        Vector3 playerPosition = transform.position;
+        mainCamera.transform.position = new Vector3(playerPosition.x, playerPosition.y, mainCamera.transform.position.z);
+    }
+
 
 
     // Update is called once per frame
@@ -79,6 +90,7 @@ public class Player : MonoBehaviour
     {
         Move();
         WrapPlayer();
+        //FollowPlayer();
     }
 }
 
