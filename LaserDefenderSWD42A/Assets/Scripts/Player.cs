@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,6 +9,11 @@ public class Player : MonoBehaviour
     /// Adjust this value to change how fast the player moves.
     /// </summary>
     [SerializeField] float speed = 10f;
+
+    [SerializeField] GameObject laserPrefab;
+
+    IEnumerator shootingCoroutine;
+
     // Get the main camera
     Camera mainCamera;
 
@@ -17,11 +23,9 @@ public class Player : MonoBehaviour
 
         // Get the main camera
         mainCamera = Camera.main;
+        //save the shooting coroutine
+        shootingCoroutine = ShootContinuously();
 
-        //write a method that makes the Player move on the x and y axes using the arrow keys
-        //and Unity old input system
-
-        //update the code so that the Playe ship uses screen wrapping
     }
 
     void Move()
@@ -83,14 +87,43 @@ public class Player : MonoBehaviour
         mainCamera.transform.position = new Vector3(playerPosition.x, playerPosition.y, mainCamera.transform.position.z);
     }
 
+    void ShootLaser()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(shootingCoroutine);
+        }
+    
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(shootingCoroutine);
+        }
+    }
 
+    IEnumerator ShootContinuously()
+    {
+        //loop until we stop the coroutine
+        while (true)
+        {
+            //get the player's position
+            Vector2 playerPosition = transform.position;
+            // Instantiate the laser prefab at the player's position with no rotation
+            GameObject laser = Instantiate(laserPrefab, playerPosition, Quaternion.identity);
+            laser.GetComponent<Rigidbody2D>().linearVelocityY = 10f;
+
+            //wait for 0.2 seconds before shooting again
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
         Move();
         WrapPlayer();
-        //FollowPlayer();
+        ShootLaser();
+       
+
     }
 }
 
