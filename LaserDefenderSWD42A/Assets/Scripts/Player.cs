@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
 
     IEnumerator shootingCoroutine;
 
+    [SerializeField] float extraY = 0.5f;
+
+    Vector2 playerPosition;
+
     // Get the main camera
     Camera mainCamera;
 
@@ -106,7 +110,9 @@ public class Player : MonoBehaviour
         while (true)
         {
             //get the player's position
-            Vector2 playerPosition = transform.position;
+            playerPosition = transform.position;
+            //add the extra to the y position
+            playerPosition.y += extraY;
             // Instantiate the laser prefab at the player's position with no rotation
             GameObject laser = Instantiate(laserPrefab, playerPosition, Quaternion.identity);
             laser.GetComponent<Rigidbody2D>().linearVelocityY = 10f;
