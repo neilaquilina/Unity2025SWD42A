@@ -6,7 +6,7 @@ public class WaveConfig : ScriptableObject
 {
     [SerializeField] GameObject enemyPrefab;
     //path on which to move the enemy
-    [SerializeField] List<Transform> pathPrefab;
+    [SerializeField] GameObject pathPrefab;
     //delay before spawning the next enemy
     [SerializeField] float timeBetweenSpawns = 0.5f;
     //number of enemies to spawn in this wave
@@ -27,7 +27,16 @@ public class WaveConfig : ScriptableObject
 
     public List<Transform> GetPathPrefab()
     {
-        return pathPrefab;
+        List <Transform> waveWaypoints = new List<Transform>();
+
+        //access the Path prefab and get all its child transforms
+        foreach (Transform waypoint in pathPrefab.transform)
+        {
+            //add each waypoint to the list
+            waveWaypoints.Add(waypoint);
+        }
+
+        return waveWaypoints;
     }
 
     public float GetTimeBetweenSpawns()

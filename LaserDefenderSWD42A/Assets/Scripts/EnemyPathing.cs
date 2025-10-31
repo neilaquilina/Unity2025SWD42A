@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class EnemyPathing : MonoBehaviour
 {
-    [SerializeField] List<Transform> waypointsList;
+    List<Transform> waypointsList;
+
+    [SerializeField] WaveConfig waveConfig;
+
     [SerializeField] float enemySpeed = 2f;
     // Index to track the current waypoint
     int waypointIndex = 0;
@@ -11,6 +14,8 @@ public class EnemyPathing : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //get the list of waypoints from the wave configuration
+        waypointsList = waveConfig.GetPathPrefab();
         //set the enemy's position to the first waypoint
         transform.position = waypointsList[waypointIndex].transform.position;
     }
