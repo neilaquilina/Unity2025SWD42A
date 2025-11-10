@@ -5,9 +5,8 @@ public class EnemyPathing : MonoBehaviour
 {
     List<Transform> waypointsList;
 
-    [SerializeField] WaveConfig waveConfig;
+    WaveConfig waveConfig;
 
-    [SerializeField] float enemySpeed = 2f;
     // Index to track the current waypoint
     int waypointIndex = 0;
 
@@ -25,6 +24,11 @@ public class EnemyPathing : MonoBehaviour
     {
         EnemyMove();
     }
+    //set the wave configuration for this enemy
+    public void SetWaveConfig(WaveConfig waveConfigToSet)
+    {
+          waveConfig = waveConfigToSet;
+    }
 
     void EnemyMove()
     {
@@ -34,7 +38,7 @@ public class EnemyPathing : MonoBehaviour
             var targetPosition = waypointsList[waypointIndex].transform.position;
             // Ensure z-axis is 0 for 2D movement
             targetPosition.z = 0f; 
-            var movementThisFrame = enemySpeed * Time.deltaTime;
+            var movementThisFrame = waveConfig.GetEnemyMoveSpeed() * Time.deltaTime;
             //move the enemy towards the target position at a constant speed
             transform.position = Vector2.MoveTowards(transform.position, 
                 targetPosition, movementThisFrame);
