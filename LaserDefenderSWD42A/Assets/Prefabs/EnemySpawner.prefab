@@ -50,4 +50,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dde004b35967fbd45b826df68988514e, type: 2}
   - {fileID: 11400000, guid: 250640a754f62d549baed4624b785f85, type: 2}
   startingWave: 0
-  looping: 1
+  looping: 0
