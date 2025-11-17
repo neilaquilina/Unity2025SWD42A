@@ -9,17 +9,56 @@ public class Enemy : MonoBehaviour
     [SerializeField] float maximumTimeBetweenShots = 3f;
     [SerializeField] float shotCounter;
 
+    [SerializeField] GameObject laserPrefab;
+
+    [SerializeField] AudioClip enemyDeathSound;
+    [SerializeField][Range(0, 1)] float enemyDeathSoundVolume = 0.7f;
+
+    [SerializeField] AudioClip enemyShootSound;
+    [SerializeField][Range(0, 1)] float enemyShootSoundVolume = 0.25f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //read the damage dealer component from the colliding object
         DamageDealer dd = collision.gameObject.GetComponent<DamageDealer>();
         health -= dd.GetDamage();
+             
+
+        dd.Hit(); //destroy the damage dealer object (laser)
 
         if (health <= 0)
         {
+            //play death sound
+            AudioSource.PlayClipAtPoint(enemyDeathSound, Camera.main.transform.position, enemyDeathSoundVolume);
+            
             Destroy(gameObject); //enemy dies
-            dd.Hit(); //destroy the damage dealer object (laser)
+            
         }
+
+    }
+
+    void CountdownAndShoot()
+    {
+        //count down the shot counter each frame
+        shotCounter -= Time.deltaTime;
+
+        if (shotCounter <= 0f)
+        {
+            //shoot
+            EnemyFire();
+            //reset the shot counter with a new random value
+            shotCounter = Random.Range(minimumTimeBetweenShots, maximumTimeBetweenShots);
+        }
+    }
+
+    void EnemyFire()
+    {
+        // Instantiate the laser prefab at the enemy's position with no rotation
+        GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+        laser.GetComponent<Rigidbody2D>().linearVelocityY = -5f;
+
+        //play shooting sound
+        AudioSource.PlayClipAtPoint(enemyShootSound, Camera.main.transform.position, enemyShootSoundVolume);
 
     }
 
@@ -33,6 +72,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CountdownAndShoot();
     }
 }

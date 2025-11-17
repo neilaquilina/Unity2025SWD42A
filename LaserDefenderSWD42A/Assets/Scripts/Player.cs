@@ -15,6 +15,15 @@ public class Player : MonoBehaviour
     IEnumerator shootingCoroutine;
 
     [SerializeField] float extraY = 0.5f;
+    [SerializeField] int health = 100;
+
+    [SerializeField] AudioClip playerDeathSound;
+    [SerializeField][Range(0, 1)] float playerDeathSoundVolume = 0.7f;
+
+    [SerializeField] AudioClip playerShootSound;
+    [SerializeField][Range(0, 1)] float playerShootSoundVolume = 0.25f;
+
+
 
     Vector2 playerPosition;
 
@@ -117,9 +126,30 @@ public class Player : MonoBehaviour
             GameObject laser = Instantiate(laserPrefab, playerPosition, Quaternion.identity);
             laser.GetComponent<Rigidbody2D>().linearVelocityY = 10f;
 
+            //play shooting sound
+            AudioSource.PlayClipAtPoint(playerShootSound, Camera.main.transform.position, playerShootSoundVolume);
+
             //wait for 0.2 seconds before shooting again
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //read the damage dealer component from the colliding object
+        DamageDealer dd = collision.gameObject.GetComponent<DamageDealer>();
+        health -= dd.GetDamage();
+        dd.Hit(); //destroy the damage dealer object (laser)
+
+        if (health <= 0)
+        {
+            //play death sound
+            AudioSource.PlayClipAtPoint(playerDeathSound, Camera.main.transform.position, playerDeathSoundVolume);
+
+            Destroy(gameObject); //player dies
+
+        }
+
     }
 
     // Update is called once per frame
