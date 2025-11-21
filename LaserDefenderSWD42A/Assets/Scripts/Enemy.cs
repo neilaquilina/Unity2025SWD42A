@@ -17,22 +17,24 @@ public class Enemy : MonoBehaviour
     [SerializeField] AudioClip enemyShootSound;
     [SerializeField][Range(0, 1)] float enemyShootSoundVolume = 0.25f;
 
+    [SerializeField] GameObject explosionVFX;
+    [SerializeField] float explosionDuration = 1f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //read the damage dealer component from the colliding object
         DamageDealer dd = collision.gameObject.GetComponent<DamageDealer>();
         health -= dd.GetDamage();
-             
-
         dd.Hit(); //destroy the damage dealer object (laser)
 
         if (health <= 0)
         {
             //play death sound
             AudioSource.PlayClipAtPoint(enemyDeathSound, Camera.main.transform.position, enemyDeathSoundVolume);
-            
-            Destroy(gameObject); //enemy dies
-            
+            //instantiate explosion effect
+            GameObject explosion = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+            Destroy(explosion, explosionDuration); //destroy explosion effect after duration
+            Destroy(gameObject); //enemy dies            
         }
 
     }

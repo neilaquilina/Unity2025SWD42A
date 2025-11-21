@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6543048329843848838, guid: 06249296edddc184c86c42229f9fb1aa, type: 3}
+  m_Sprite: {fileID: 1626006803560414696, guid: a9362d9200eb313488656c1a2c09b3ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,6 +109,8 @@ MonoBehaviour:
   playerDeathSoundVolume: 0.7
   playerShootSound: {fileID: 8300000, guid: bd4e48017eb35e84f89a13c7300dfe31, type: 3}
   playerShootSoundVolume: 0.25
+  explosionVFX: {fileID: 5943206216075847786, guid: af7a01b7fbe6b384d8274e3f73ff9e31, type: 3}
+  explosionDuration: 1
 --- !u!60 &-6930220261576917193
 PolygonCollider2D:
   m_ObjectHideFlags: 0

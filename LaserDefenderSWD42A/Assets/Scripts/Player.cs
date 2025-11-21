@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip playerShootSound;
     [SerializeField][Range(0, 1)] float playerShootSoundVolume = 0.25f;
 
-
+    [SerializeField] GameObject explosionVFX;
+    [SerializeField] float explosionDuration = 1f;
 
     Vector2 playerPosition;
 
@@ -145,6 +146,9 @@ public class Player : MonoBehaviour
         {
             //play death sound
             AudioSource.PlayClipAtPoint(playerDeathSound, Camera.main.transform.position, playerDeathSoundVolume);
+
+            GameObject explosion = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+            Destroy(explosion, explosionDuration); //destroy explosion effect after duration
 
             Destroy(gameObject); //player dies
 
