@@ -152,6 +152,9 @@ public class Player : MonoBehaviour
 
             Destroy(gameObject); //player dies
 
+            //load game over scene
+            FindFirstObjectByType<Level>().LoadGameOver();
+
         }
 
     }
