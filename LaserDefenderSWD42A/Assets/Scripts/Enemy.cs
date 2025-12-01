@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField] int health = 10;
+    [SerializeField] int scoreValue = 1;
 
     [SerializeField] float minimumTimeBetweenShots = 0.2f;
     [SerializeField] float maximumTimeBetweenShots = 3f;
@@ -34,7 +35,11 @@ public class Enemy : MonoBehaviour
             //instantiate explosion effect
             GameObject explosion = Instantiate(explosionVFX, transform.position, Quaternion.identity);
             Destroy(explosion, explosionDuration); //destroy explosion effect after duration
-            Destroy(gameObject); //enemy dies            
+            Destroy(gameObject); //enemy dies
+
+            //add score to the game session
+            FindFirstObjectByType<GameSession>().AddToScore(scoreValue);
+
         }
 
     }

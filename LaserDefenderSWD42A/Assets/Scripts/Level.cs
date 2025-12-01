@@ -23,6 +23,8 @@ public class Level : MonoBehaviour
     {
         //load the scene named "LaserDefender"
         SceneManager.LoadScene("LaserDefender");
+        //reset game session
+        FindFirstObjectByType<GameSession>().ResetGameSession();
     }
 
     public void LoadGameOver()
