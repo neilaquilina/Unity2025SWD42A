@@ -42,6 +42,11 @@ public class Player : MonoBehaviour
 
     }
 
+    public int GetHealth()
+    {
+        return health;
+    }
+
     void Move()
     {
         // Get horizontal input (left/right arrow keys or A/D)
